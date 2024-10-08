@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #container {
+            position: relative;
+            width: 1080px; /* Adjust to your image width */
+            height: 1920px; /* Adjust to your image height */
+            overflow: hidden;
+        }
+        #image, #videoPlayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .visible {
+            opacity: 1;
+        }
+        .hidden {
+            opacity: 0;
+        }
+        .button {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 0, 0, 0.5); /* Red with 50% opacity */
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: opacity 0.5s ease-in-out; /* Added transition for smooth fading */
+        }
+        /* Position the buttons */
+        #button1 { top: 23%; left: 19%; }
+        #button2 { top: 23%; right: 58%; }
+        #button3 { top: 23%; left: 57%; }
+        #button4 { top: 23%; right: 17%; }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img id="image" src="pic.png" alt="Picture" class="visible">
+        <video id="videoPlayer" autoplay class="hidden"></video>
+        <button class="button visible" id="button1" onclick="playVideo('vid1.mp4')"></button>
+        <button class="button visible" id="button2" onclick="playVideo('vid2.mp4')"></button>
+        <button class="button visible" id="button3" onclick="playVideo('vid3.mp4')"></button>
+        <button class="button visible" id="button4" onclick="playVideo('vid4.mp4')"></button>
+    </div>
+    <script>
+        function playVideo(videoFile) {
+            var image = document.getElementById('image');
+            var videoPlayer = document.getElementById('videoPlayer');
+            var buttons = document.getElementsByClassName('button');
+
+            // Set the video source
+            videoPlayer.src = videoFile;
+
+            // Wait for the video to be ready
+            videoPlayer.oncanplay = function() {
+                // Fade out the image
+                image.classList.remove('visible');
+                image.classList.add('hidden');
+
+                // Fade out the buttons
+                for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove('visible');
+                    buttons[i].classList.add('hidden');
+                }
+
+                // Fade in the video
+                videoPlayer.classList.remove('hidden');
+                videoPlayer.classList.add('visible');
+
+                // Play the video
+                videoPlayer.play();
+            };
+
+            // Start loading the video
+            videoPlayer.load();
+        }
+    </script>
+</body>
+</html>
